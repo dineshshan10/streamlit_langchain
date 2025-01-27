@@ -1,0 +1,45 @@
+name: Streamlit App CI/CD
+
+on:
+  push:
+    branches:
+      - main  # Trigger deployment when changes are pushed to the main branch
+  pull_request:
+    branches:
+      - main  # Trigger deployment on PRs to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # Step 1: Check out the code
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # Step 2: Set up Python
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+
+    # Step 3: Install dependencies
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    # Step 4: Run tests (optional)
+    # If you have unit tests, add a step to run them.
+    # - name: Run tests
+    #   run: |
+    #     pytest tests/
+
+    # Step 5: Deploy to Streamlit Cloud
+    - name: Deploy to Streamlit Cloud
+      run: |
+        echo "Deploying to Streamlit Cloud"
+        # Streamlit Cloud will automatically deploy from the main branch when it is pushed
+        # Just make sure the latest changes are pushed to the repository
+        # (Streamlit Cloud will pull from GitHub automatically)
+
