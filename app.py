@@ -7,7 +7,7 @@ from streamlit_langchain.qa_pipeline import create_qa_chain, calculate_tokens_an
 
 # Set OpenAI API Key
 api_key = get_api_key()
-st.title("LangChain-Powered Chatbot")
+st.title("Streamlit LangChain-Powered Chatbot")
 
 # Load and chunk documents
 st.sidebar.title("Document Upload")
@@ -34,8 +34,10 @@ if query:
 
         # Display source documents
         st.write("### Sources:")
-        for doc in response["source_documents"]:
-            st.write(doc.page_content[:200] + "...")
+        for i, doc in enumerate(response["source_documents"]):
+            # Display the title or first few words of the document as a link
+            source_text = doc.page_content[:200]  # First 200 characters of the document
+            st.markdown(f"**Source {i+1}:** {source_text}...")  # Display source with a number
 
         # Token usage and cost
         input_tokens, output_tokens, total_tokens, cost = calculate_tokens_and_cost(query, result)
